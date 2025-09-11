@@ -1,10 +1,9 @@
-name: Release ARM64 Binary
+name: Build & Release (ARM64)
 
 on:
   push:
     tags:
-      - 'v*'
-  workflow_dispatch:
+      - "v*"
 
 jobs:
   build-release:
@@ -14,29 +13,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install strings
+        run: sudo apt-get update && sudo apt-get install -y binutils
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
-      - name: Build with Webpack
-        run: npm run build-js
-
-      - name: Install pkg
-        run: npm install -g pkg
-
-      - name: Package binary (Linux ARM64)
+      - name: Build binary (ARM64)
         run: |
-          pkg . \
-            --targets node18-linux-arm64 \
-            --output OpenList-APIPages-arm64
+          npm run build-bin
+          strings openlist-apipages-arm64 | grep "/snapshot"
 
-      - name: Upload Release Asset
-        uses: softprops/action-gh-release@v1
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          files: OpenList-APIPages-arm64
+          files: openlist-apipages-arm64
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
