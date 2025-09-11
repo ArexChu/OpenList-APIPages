@@ -1,0 +1,42 @@
+name: Release ARM64 Binary
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build with Webpack
+        run: npm run build-js
+
+      - name: Install pkg
+        run: npm install -g pkg
+
+      - name: Package binary (Linux ARM64)
+        run: |
+          pkg . \
+            --targets node18-linux-arm64 \
+            --output OpenList-APIPages-arm64
+
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v1
+        with:
+          files: OpenList-APIPages-arm64
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
