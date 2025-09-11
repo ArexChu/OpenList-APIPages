@@ -1,5 +1,10 @@
 {
   "name": "cf-worker-api",
+  "pkg": {
+    "assets": [
+      "dist/**/*"
+    ]
+  },
   "scripts": {
     "dev-js": "tsx watch src/basic.ts",
     "build-js": "webpack --mode production",
@@ -9,7 +14,9 @@
     "dev-eo": "edgeone pages dev",
     "build-eo": "edgeone pages build",
     "deploy-eo": "edgeone pages deploy ./ -n edgeone-hono-app -t ",
-    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "copy-to-root": "cp dist/bundle.js bundle.js",
+    "build-bin": "npm run build-js && npm run copy-to-root && pkg bundle.js --targets node18-linux-arm64 --output openlist-apipages-arm64"
   },
   "dependencies": {
     "@cloudflare/workers-types": "^4.20250610.0",
@@ -33,6 +40,10 @@
     "typescript": "^5.8.3",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4",
-    "ts-loader": "^9.5.1"
+    "ts-loader": "^9.5.1",
+    "pkg": "^5.8.1"
+  },
+  "bin": {
+    "openlist-apipages": "dist/bundle.js"
   }
 }
