@@ -32,5 +32,5 @@ module.exports = {
         nodeEnv: "production",
     },
     target: "node",
-    externalsPresets: { node: true },
+    externalsPresets: [],
 };
