@@ -1,17 +1,16 @@
-name: Release ARM64 Binary
+name: Build & Release (arm64, Node 18)
 
 on:
   push:
     tags:
-      - 'v*'
-  workflow_dispatch:
+      - "v*"
 
 jobs:
-  build-release:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -22,21 +21,19 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build with Webpack
+      - name: Build project with webpack
         run: npm run build-js
 
       - name: Install pkg
         run: npm install -g pkg
 
-      - name: Package binary (Linux ARM64)
+      - name: Package binary (Linux arm64)
         run: |
-          pkg . \
-            --targets node18-linux-arm64 \
-            --output OpenList-APIPages-arm64
+          pkg dist/bundle.js --targets node18-linux-arm64 --output dist/cf-worker-api-arm64
 
-      - name: Upload Release Asset
-        uses: softprops/action-gh-release@v1
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
         with:
-          files: OpenList-APIPages-arm64
+          files: dist/cf-worker-api-arm64
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
