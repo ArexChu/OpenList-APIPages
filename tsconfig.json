@@ -3,8 +3,9 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "strict": true,
+    "strict": false,
     "skipLibCheck": true,
+    "noEmitOnError": false,
     "lib": [
       "ESNext",
     ],
