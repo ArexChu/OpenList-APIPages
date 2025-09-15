@@ -23,6 +23,10 @@ jobs:
       - name: Build project
         run: npm run build-js
 
+      - name: List dist contents
+        run: |
+          ls -R dist
+
       - name: Build arm64 binary
         run: |
           npm install -g pkg
