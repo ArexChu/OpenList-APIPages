@@ -1,6 +1,15 @@
 {
   "name": "cf-worker-api",
-  "bin": "./dist//bundle.js",
+  "bin": "dist/bundle.js",
+  "pkg": {
+    "scripts": "dist/bundle.js",
+    "assets": [
+      "public/**/*"
+    ],
+    "targets": [
+      "node18-linux-arm64"
+    ]
+  },
   "scripts": {
     "dev-js": "tsx watch src/basic.ts",
     "build-js": "webpack --mode production",
