@@ -30,7 +30,7 @@ jobs:
 
       - name: Build arm64 binary with Bun
         run: |
-          bun build ./bundle.js --compile --target=bun-linux-arm64 --outfile openlist-apipages
+          bun build ./dist/bundle.js --compile --target=bun-linux-arm64 --outfile openlist-apipages
 
       - name: Test binary
         run: |
