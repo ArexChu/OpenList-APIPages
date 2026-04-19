@@ -15,7 +15,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 24
 
       - name: Install dependencies
         run: npm install
@@ -26,7 +26,7 @@ jobs:
       - name: Build arm64 binary
         run: |
           npm install -g pkg
-          pkg . --targets node18-linux-arm64 --output openlist-apipages
+          pkg . --targets node24-linux-arm64 --output openlist-apipages
 
       - name: Test binary
         run: |
